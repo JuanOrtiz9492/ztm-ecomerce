@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { createUserDocumentFromAuth, signInWithGooglePopup, signInAuthWithEmailAndPassword } from "../../utils/firebase/firebase.utils"
+import { signInWithGooglePopup, signInAuthWithEmailAndPassword } from "../../utils/firebase/firebase.utils"
 import FormInput from "../form-input/form-input.component"
 import Button from "../button/button.component"
 import './sign-in-form.styles.scss'
@@ -14,12 +14,10 @@ const SignInForm = () => {
 
 	const [formFields, setFormFields] = useState(defaultFormFields)
 	const { email, password } = formFields;
-
 	const handleSubmit = async (event) => {
 		event.preventDefault();
 		try {
-			const response = await signInAuthWithEmailAndPassword(email, password)
-			console.log(response);
+			const { user } = await signInAuthWithEmailAndPassword(email, password)
 			resetForm();
 		} catch (error) {
 			if (error.code === 'auth/user-not-found') {
@@ -41,7 +39,6 @@ const SignInForm = () => {
 
 	const signWithGoogle = async () => {
 		const { user } = await signInWithGooglePopup();
-		await createUserDocumentFromAuth(user);
 	}
 	return (
 		<div className="sign-up-container">
