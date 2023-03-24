@@ -1,0 +1,3 @@
+const CATEGORIES_ACTION_TYPES = {
+
+}
